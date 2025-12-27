@@ -84,6 +84,7 @@ function DashboardRendererContent({ config, registry, className, isEditable }: a
       <div ref={containerRef}>
         {mounted && (
           <Grid
+            key={processedLayout.length} // Force re-render/remount when item count changes to ensure DOM nodes exist
             width={width}
             layout={processedLayout}
             cols={cols}
@@ -108,6 +109,7 @@ function DashboardRendererContent({ config, registry, className, isEditable }: a
                     borderColor: 'hsl(var(--widget-border))'
                   }}
                   data-grid={{ ...item, isDraggable: isEditable, isResizable: isEditable }}
+                  data-widget-id={item.i}
                 >
                   <div
                     className={cn(
