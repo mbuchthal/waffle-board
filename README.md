@@ -2,6 +2,9 @@
 
 A **JSON schema-based dashboard renderer** for React. Build complex, draggable grid layouts simply by defining a JSON configuration.
 
+[![NPM Version](https://img.shields.io/npm/v/waffle-board)](https://www.npmjs.com/package/waffle-board)
+[![Live Demo](https://img.shields.io/badge/demo-live-green)](https://mbuchthal.github.io/waffle-board/)
+
 ![Dashboard Preview](https://github.com/mbuchthal/waffle-board/raw/main/public/preview.png)
 
 ## Features
