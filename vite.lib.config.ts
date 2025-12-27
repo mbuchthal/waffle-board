@@ -10,8 +10,7 @@ export default defineConfig({
     tailwindcss(),
     dts({
       include: ['src/lib'],
-      insertTypesEntry: true,
-      rollupTypes: true
+      insertTypesEntry: true
     })
   ],
   resolve: {
