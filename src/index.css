@@ -1,0 +1,229 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* ============================================
+   WAFFLE BOARD THEME SYSTEM
+   ============================================ */
+
+@layer base {
+
+  /* Default Theme Variables */
+  :root {
+    --dashboard-bg: 215 28% 88%;
+    /* Darker slate for better card contrast */
+    --widget-bg: 0 0% 100%;
+    --widget-border: 214.3 31.8% 91.4%;
+    --widget-header-bg: 210 40% 98%;
+
+    /* Chart color palette */
+    --chart-1: 239 84% 67%;
+    /* Indigo */
+    --chart-2: 330 81% 60%;
+    /* Pink */
+    --chart-3: 174 72% 56%;
+    /* Teal */
+    --chart-4: 142 71% 45%;
+    /* Emerald */
+    --chart-5: 38 92% 50%;
+    /* Amber */
+  }
+
+  .dark {
+    --dashboard-bg: 222.2 84% 4.9%;
+    --widget-bg: 224 71% 4%;
+    --widget-border: 217.2 32.6% 17.5%;
+    --widget-header-bg: 217 33% 10%;
+  }
+
+  /* Ocean Theme - Blue/Cyan analytics look */
+  .theme-ocean {
+    --dashboard-bg: 201 60% 85%;
+    /* Deeper blue-tinted background */
+    --widget-bg: 0 0% 100%;
+    --widget-border: 199 89% 86%;
+    --widget-header-bg: 199 95% 95%;
+    --primary: 199 89% 48%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 199 89% 48%;
+    --accent-foreground: 0 0% 100%;
+
+    --chart-1: 199 89% 48%;
+    /* Sky blue */
+    --chart-2: 186 94% 42%;
+    /* Cyan */
+    --chart-3: 217 91% 60%;
+    /* Blue */
+    --chart-4: 259 94% 51%;
+    /* Violet */
+    --chart-5: 172 66% 50%;
+    /* Teal */
+  }
+
+  .theme-ocean.dark {
+    --dashboard-bg: 200 50% 8%;
+    --widget-bg: 200 50% 10%;
+    --widget-border: 200 50% 20%;
+    --widget-header-bg: 200 50% 12%;
+  }
+
+  /* Forest Theme - Green/Emerald nature look */
+  .theme-forest {
+    --dashboard-bg: 140 35% 85%;
+    /* Deeper green-tinted background */
+    --widget-bg: 0 0% 100%;
+    --widget-border: 142 40% 85%;
+    --widget-header-bg: 140 40% 96%;
+    --primary: 142 71% 45%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 142 71% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --chart-1: 142 71% 45%;
+    /* Emerald */
+    --chart-2: 158 64% 52%;
+    /* Teal */
+    --chart-3: 84 81% 44%;
+    /* Lime */
+    --chart-4: 45 93% 47%;
+    /* Yellow */
+    --chart-5: 27 96% 61%;
+    /* Orange */
+  }
+
+  .theme-forest.dark {
+    --dashboard-bg: 140 30% 6%;
+    --widget-bg: 140 30% 8%;
+    --widget-border: 140 30% 18%;
+    --widget-header-bg: 140 30% 10%;
+  }
+
+  /* Sunset Theme - Warm orange/rose palette */
+  .theme-sunset {
+    --dashboard-bg: 28 45% 86%;
+    /* Warmer peach-tinted background */
+    --widget-bg: 0 0% 100%;
+    --widget-border: 24 60% 88%;
+    --widget-header-bg: 28 50% 97%;
+    --primary: 24 95% 53%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 24 95% 53%;
+    --accent-foreground: 0 0% 100%;
+
+    --chart-1: 24 95% 53%;
+    /* Orange */
+    --chart-2: 350 89% 60%;
+    /* Rose */
+    --chart-3: 38 92% 50%;
+    /* Amber */
+    --chart-4: 330 81% 60%;
+    /* Pink */
+    --chart-5: 280 87% 65%;
+    /* Fuchsia */
+  }
+
+  .theme-sunset.dark {
+    --dashboard-bg: 25 40% 6%;
+    --widget-bg: 25 40% 8%;
+    --widget-border: 25 40% 18%;
+    --widget-header-bg: 25 40% 10%;
+  }
+}
