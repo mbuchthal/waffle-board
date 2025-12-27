@@ -1,14 +1,15 @@
 # Waffle Board
 
-A modern, responsive dashboard built with React, Vite, and **Waffle Charts**.
+A **JSON schema-based dashboard renderer** for React. Build complex, draggable grid layouts simply by defining a JSON configuration.
 
-![Dashboard Preview](https://github.com/mbuchthal/waffle-charts/raw/main/public/gallery-preview.png)
+![Dashboard Preview](https://github.com/mbuchthal/waffle-board/raw/main/public/preview.png)
 
 ## Features
 
+- **JSON-Driven**: Define your entire dashboard layout and widget configuration in a simple JSON object.
+- **Drag & Drop**: Built-in support for resizing and rearranging widgets (powered by `react-grid-layout`).
 - **Theme System**: 4 distinct themes (Ocean, Forest, Sunset, Default) with dark mode support.
 - **Waffle Charts Integration**: Showcases the full power of the [Waffle Charts](https://github.com/mbuchthal/waffle-charts) library.
-- **Responsive Layout**: Built with `react-grid-layout` for draggable, resizable widgets.
 - **Modern UI**: Clean aesthetics using Tailwind CSS and Lucide icons.
 
 ## Tech Stack
