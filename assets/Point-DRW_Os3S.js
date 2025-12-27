@@ -1,0 +1,1 @@
+var u=(function(){function r(t){var o=t.x,y=o===void 0?0:o,n=t.y,s=n===void 0?0:n;this.x=0,this.y=0,this.x=y,this.y=s}var i=r.prototype;return i.value=function(){return{x:this.x,y:this.y}},i.toArray=function(){return[this.x,this.y]},r})();export{u as P};
