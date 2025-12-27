@@ -1,5 +1,6 @@
-import { DashboardRenderer } from '../DashboardRenderer';
-import type { DashboardConfig } from '../types';
+import { Dashboard as DashboardRenderer } from '../lib/Dashboard';
+import { COMPONENT_REGISTRY } from '../registry';
+import type { DashboardConfig } from '../lib/types';
 import { useState, useRef } from 'react';
 import { WidgetGallery } from '../components/WidgetGallery';
 import type { WidgetTemplate } from '../config/templates';
@@ -449,7 +450,7 @@ export function DashboardPage() {
           textareaRef.current.focus();
         }
       }
-    }, 100);
+    }, 500);
   };
 
   const customRegistry = {
@@ -549,7 +550,7 @@ export function DashboardPage() {
             config={config}
             className="max-w-[1400px] mx-auto"
             isEditable={isEditable}
-            customRegistry={customRegistry}
+            registry={{ ...COMPONENT_REGISTRY, ...customRegistry }}
           />
         </div>
       </main>

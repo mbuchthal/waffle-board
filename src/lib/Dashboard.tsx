@@ -1,55 +1,32 @@
 // @ts-ignore
 import ReactGridLayout, { useContainerWidth, useResponsiveLayout } from "react-grid-layout";
+import React, { useMemo, Suspense } from 'react';
+import { cn } from './utils';
+import type { BaseChartProps, DashboardConfig, Layout } from './types';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import type { DashboardConfig, Layout } from './types';
-import { COMPONENT_REGISTRY } from './registry';
-import { useMemo, Suspense } from 'react';
-import { cn } from './lib/utils';
+import '../index.css';
 
+const Grid = ReactGridLayout as any;
 
-interface DashboardRendererProps {
+export interface DashboardProps {
   config: DashboardConfig;
-  customRegistry?: Record<string, React.FC<any>>;
   className?: string;
   isEditable?: boolean;
+  registry: Record<string, React.ComponentType<BaseChartProps> | React.ComponentType<any>>;
 }
 
-export function DashboardRenderer({
+export function Dashboard({
   config,
-  customRegistry = {},
   className,
-  isEditable = false
-}: DashboardRendererProps) {
+  isEditable = false,
+  registry
+}: DashboardProps) {
 
-  // Merge registries
-  const registry = useMemo(() => ({
-    ...COMPONENT_REGISTRY,
-    ...customRegistry
-  }), [customRegistry]);
+  // We rely on useContainerWidth and useResponsiveLayout from RGL
+  // Note: If these hooks are not exported by the RGL version installed, we might need a different approach.
+  // But they were working in the previous file.
 
-  // Use Width hook if available, otherwise just hardcode for debug first
-  // Assuming the user's snippet where useContainerWidth is available
-  // If useWidth is undefined, it means we are still on old version, but package.json said 2.x?
-  // Let's safe guard.
-
-  // NOTE: If useContainerWidth is NOT exported, we will get runtime error again.
-  // But let's trust the user's snippet.
-
-  // Just in case, let's look at the object again in console if this fails.
-
-  return (
-    <DashboardRendererContent
-      config={config}
-      registry={registry}
-      className={className}
-      isEditable={isEditable}
-    />
-  );
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function DashboardRendererContent({ config, registry, className, isEditable }: any) {
   const { width, containerRef, mounted } = useContainerWidth();
 
   const {
@@ -61,13 +38,9 @@ function DashboardRendererContent({ config, registry, className, isEditable }: a
     cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
     layouts: config.layouts,
     onBreakpointChange: (bp: string, cols: number) => {
-      // Optional: could expose this via a prop if needed
-      console.debug(`Breakpoint change: ${bp}, cols: ${cols}`);
+      console.debug(`Breakpoint change: ${bp}, cols: ${cols} `);
     }
   });
-
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  const Grid = ReactGridLayout as any;
 
   // React-grid-layout prioritizes the layout prop over children data-grid
   // We must enforce isDraggable props in the layout object itself
@@ -84,7 +57,6 @@ function DashboardRendererContent({ config, registry, className, isEditable }: a
       <div ref={containerRef}>
         {mounted && (
           <Grid
-            key={processedLayout.length} // Force re-render/remount when item count changes to ensure DOM nodes exist
             width={width}
             layout={processedLayout}
             cols={cols}
@@ -146,5 +118,5 @@ function DashboardRendererContent({ config, registry, className, isEditable }: a
         )}
       </div>
     </div>
-  )
+  );
 }

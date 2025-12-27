@@ -22,6 +22,13 @@ export interface DashboardConfig {
   widgets: Record<string, WidgetDefinition>;
 }
 
+export interface BaseChartProps {
+  width?: number;
+  height?: number;
+  className?: string;
+  [key: string]: any;
+}
+
 export interface WidgetDefinition {
   type: string; // e.g. "waffle-bar", "stat-card"
   title: string;

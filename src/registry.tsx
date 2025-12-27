@@ -1,5 +1,6 @@
 import React, { lazy } from 'react';
-import { StatCard } from './components/ui/StatCard';
+// Lazy load chart components to optimize bundle size
+const StatCard = lazy(() => import('@waffle-charts/components/waffle/StatCard.tsx').then(module => ({ default: module.StatCard })));
 
 // Lazy load chart components to optimize bundle size
 const BarChart = lazy(() => import('@waffle-charts/components/waffle/BarChart.tsx').then(module => ({ default: module.BarChart })));

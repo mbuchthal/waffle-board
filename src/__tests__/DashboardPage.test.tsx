@@ -35,7 +35,7 @@ window.HTMLElement.prototype.scrollIntoView = vi.fn();
 
 describe('DashboardPage – widget addition', () => {
   test('adds a widget and scrolls it into view', async () => {
-    const { getByText, getByRole, container } = render(<DashboardPage />);
+    const { getByRole, container } = render(<DashboardPage />);
 
     // Open the gallery
     fireEvent.click(getByRole('button', { name: /Add Widget/i }));

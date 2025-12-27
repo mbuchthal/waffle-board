@@ -90,7 +90,7 @@ export function IntroPage() {
       </div>
 
       <footer className="text-center py-10 text-slate-500 text-sm border-t border-slate-900">
-        <p>© 2024 Waffle Board. MIT License.</p>
+        <p>© 2025 Waffle Board. <Link to="/license" className="hover:text-indigo-400 transition-colors">MIT License</Link>.</p>
         <div className="mt-2 flex justify-center gap-4">
           <a href="https://github.com/mbuchthal/waffle-charts" className="hover:text-indigo-400 transition-colors">Waffle Charts</a>
           <span>•</span>

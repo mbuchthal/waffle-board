@@ -19,23 +19,52 @@ A modern, responsive dashboard built with React, Vite, and **Waffle Charts**.
 - **Charts**: [Waffle Charts](https://github.com/mbuchthal/waffle-charts) (Visx-based)
 - **Grid**: `react-grid-layout`
 
-## Getting Started
+## Installation (As a Library)
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/mbuchthal/waffle-board.git
-   cd waffle-board
-   ```
+`waffle-board` can now be installed as an NPM package to power your own dashboards.
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+```bash
+npm install waffle-board
+```
 
-3. **Run the development server**
-   ```bash
-   npm run dev
-   ```
+### Basic Usage
+
+```tsx
+import { Dashboard } from 'waffle-board';
+import { BarChart, LineChart } from 'waffle-charts'; // Your chart components
+import 'waffle-board/dist-lib/style.css'; // Import styles
+
+const registry = {
+  'my-bar-chart': BarChart,
+  'my-line-chart': LineChart
+};
+
+function MyDashboard() {
+  return (
+    <Dashboard 
+      config={myConfig} 
+      registry={registry}
+      isEditable={true} 
+    />
+  );
+}
+```
+
+## Running the Project
+
+### Demo App
+To run the included demo application:
+
+```bash
+npm run dev
+```
+
+### Building the Library
+To build the distributable library bundle (`dist-lib/`):
+
+```bash
+npm run build:lib
+```
 
 ## Theme Customization
 
