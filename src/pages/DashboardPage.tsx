@@ -5,6 +5,7 @@ import { useState, useRef } from 'react';
 import { WidgetGallery } from '../components/WidgetGallery';
 import type { WidgetTemplate } from '../config/templates';
 import { Plus } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 
 // ... (Keep existing data constants: barData, pieData, etc.) ...
 // Example Data (Moved from App.tsx)
@@ -288,7 +289,27 @@ const CustomWelcomeWidget = ({ username = "User" }: { username?: string }) => (
   </div>
 );
 
+// Helper to pseudo-randomize data based on a seed string (Region)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const randomizeData = (region: string, data: any[]) => {
+  // Simple hash of string to number
+  const seed = region.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const factor = 1 + (seed % 10) / 10; // 1.0 to 1.9 multiplier
+
+  // Clone and modify values
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return JSON.parse(JSON.stringify(data)).map((item: any) => {
+    if (typeof item.value === 'number') item.value = Math.round(item.value * factor);
+    if (typeof item.sales === 'number') item.sales = Math.round(item.sales * factor);
+    if (typeof item.y === 'number') item.y = Math.round(item.y * factor);
+    return item;
+  });
+};
+
 export function DashboardPage() {
+  const [searchParams] = useSearchParams();
+  const region = searchParams.get('region');
+
   const [isEditable, setIsEditable] = useState(true);
   const [showEditor, setShowEditor] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
@@ -296,45 +317,64 @@ export function DashboardPage() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Config State
-  const [config, setConfig] = useState<DashboardConfig>(() => ({
-    ...demoConfig,
-    // Add custom widget to layout for demo purposes
-    layouts: {
-      ...demoConfig.layouts,
-      lg: [
-        { i: 'welcome', x: 0, y: 0, w: 3, h: 4 }, // Custom widget
-        // Re-add all existing items from demoConfig, shifted to accommodate welcome widget
-        { i: 'stat1', x: 3, y: 0, w: 3, h: 2 },
-        { i: 'stat2', x: 6, y: 0, w: 3, h: 2 },
-        { i: 'stat3', x: 9, y: 0, w: 3, h: 2 },
-        { i: 'stat4', x: 3, y: 2, w: 3, h: 2 },
-        // Row 2
-        { i: 'bar1', x: 6, y: 2, w: 6, h: 4 },
-        { i: 'pie1', x: 0, y: 4, w: 4, h: 4 }, // Adjusted position
-        // Row 3+ (New Charts)
-        { i: 'line1', x: 0, y: 8, w: 6, h: 4 },
-        { i: 'area1', x: 6, y: 8, w: 6, h: 4 },
-        { i: 'radar1', x: 0, y: 12, w: 4, h: 4 },
-        { i: 'scatter1', x: 4, y: 12, w: 4, h: 4 },
-        { i: 'bubble1', x: 8, y: 12, w: 4, h: 4 },
-        { i: 'heatmap1', x: 0, y: 16, w: 6, h: 4 },
-        { i: 'treemap1', x: 6, y: 16, w: 6, h: 4 },
-        { i: 'sankey1', x: 0, y: 20, w: 8, h: 5 },
-        { i: 'chord1', x: 8, y: 20, w: 4, h: 5 },
-        { i: 'composite1', x: 0, y: 25, w: 12, h: 5 },
-      ],
-      md: demoConfig.layouts.md,
-      sm: demoConfig.layouts.sm
-    },
-    widgets: {
-      ...demoConfig.widgets,
-      welcome: {
-        type: 'custom-welcome',
-        title: 'Welcome',
-        props: { username: 'Admin' }
-      }
+  const [config, setConfig] = useState<DashboardConfig>(() => {
+    let effectiveConfig = { ...demoConfig };
+
+    // If filtering by region, randomize the data to simulate strict filtering
+    if (region) {
+      effectiveConfig = {
+        ...effectiveConfig,
+        widgets: {
+          ...effectiveConfig.widgets,
+          // Update Titles/Data
+          stat1: { ...effectiveConfig.widgets.stat1, props: { ...effectiveConfig.widgets.stat1.props, value: `$${(45231 * (1 + region.length / 10)).toFixed(2)}` } },
+          bar1: { ...effectiveConfig.widgets.bar1, props: { ...effectiveConfig.widgets.bar1.props, data: randomizeData(region, barData) } },
+          line1: { ...effectiveConfig.widgets.line1, props: { ...effectiveConfig.widgets.line1.props, data: randomizeData(region, dateData) } },
+          pie1: { ...effectiveConfig.widgets.pie1, props: { ...effectiveConfig.widgets.pie1.props, data: randomizeData(region, pieData) } },
+        }
+      };
     }
-  }));
+
+    return {
+      ...effectiveConfig,
+      // Add custom widget to layout for demo purposes
+      layouts: {
+        ...effectiveConfig.layouts,
+        lg: [
+          { i: 'welcome', x: 0, y: 0, w: 3, h: 4 }, // Custom widget
+          // Re-add all existing items from demoConfig, shifted to accommodate welcome widget
+          { i: 'stat1', x: 3, y: 0, w: 3, h: 2 },
+          { i: 'stat2', x: 6, y: 0, w: 3, h: 2 },
+          { i: 'stat3', x: 9, y: 0, w: 3, h: 2 },
+          { i: 'stat4', x: 3, y: 2, w: 3, h: 2 },
+          // Row 2
+          { i: 'bar1', x: 6, y: 2, w: 6, h: 4 },
+          { i: 'pie1', x: 0, y: 4, w: 4, h: 4 }, // Adjusted position
+          // Row 3+ (New Charts)
+          { i: 'line1', x: 0, y: 8, w: 6, h: 4 },
+          { i: 'area1', x: 6, y: 8, w: 6, h: 4 },
+          { i: 'radar1', x: 0, y: 12, w: 4, h: 4 },
+          { i: 'scatter1', x: 4, y: 12, w: 4, h: 4 },
+          { i: 'bubble1', x: 8, y: 12, w: 4, h: 4 },
+          { i: 'heatmap1', x: 0, y: 16, w: 6, h: 4 },
+          { i: 'treemap1', x: 6, y: 16, w: 6, h: 4 },
+          { i: 'sankey1', x: 0, y: 20, w: 8, h: 5 },
+          { i: 'chord1', x: 8, y: 20, w: 4, h: 5 },
+          { i: 'composite1', x: 0, y: 25, w: 12, h: 5 },
+        ],
+        md: demoConfig.layouts.md,
+        sm: demoConfig.layouts.sm
+      },
+      widgets: {
+        ...effectiveConfig.widgets,
+        welcome: {
+          type: 'custom-welcome',
+          title: 'Welcome',
+          props: { username: region ? `Manager (${region})` : 'Admin' }
+        }
+      }
+    };
+  });
 
   // Safe JSON stringify that handles circular references
   // Safe JSON stringify that handles circular references
