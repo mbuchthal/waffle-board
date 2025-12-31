@@ -4,9 +4,9 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mbuchthal/waffle-board.git"
+    "url": "git+https://github.com/surprisewaffles-io/waffle-board.git"
   },
-  "homepage": "https://mbuchthal.github.io/waffle-board",
+  "homepage": "https://surprisewaffles-io.github.io/waffle-board",
   "type": "module",
   "main": "dist-lib/waffle-board.umd.js",
   "module": "dist-lib/waffle-board.es.js",

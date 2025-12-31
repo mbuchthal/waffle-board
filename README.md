@@ -3,16 +3,16 @@
 A **JSON schema-based dashboard renderer** for React. Build complex, draggable grid layouts simply by defining a JSON configuration.
 
 [![NPM Version](https://img.shields.io/npm/v/waffle-board)](https://www.npmjs.com/package/waffle-board)
-[![Live Demo](https://img.shields.io/badge/demo-live-green)](https://mbuchthal.github.io/waffle-board/)
+[![Live Demo](https://img.shields.io/badge/demo-live-green)](https://surprisewaffles-io.github.io/waffle-board/)
 
-![Dashboard Preview](https://github.com/mbuchthal/waffle-board/raw/main/public/preview.png)
+![Dashboard Preview](https://github.com/surprisewaffles-io/waffle-board/raw/main/public/preview.png)
 
 ## Features
 
 - **JSON-Driven**: Define your entire dashboard layout and widget configuration in a simple JSON object.
 - **Drag & Drop**: Built-in support for resizing and rearranging widgets (powered by `react-grid-layout`).
 - **Theme System**: 4 distinct themes (Ocean, Forest, Sunset, Default) with dark mode support.
-- **Waffle Charts Integration**: Showcases the full power of the [Waffle Charts](https://github.com/mbuchthal/waffle-charts) library.
+- **Waffle Charts Integration**: Showcases the full power of the [Waffle Charts](https://github.com/surprisewaffles-io/waffle-charts) library.
 - **Modern UI**: Clean aesthetics using Tailwind CSS and Lucide icons.
 
 ## Tech Stack
@@ -20,7 +20,7 @@ A **JSON schema-based dashboard renderer** for React. Build complex, draggable g
 - **Framework**: [React](https://react.dev/) + [Vite](https://vitejs.dev/)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
-- **Charts**: [Waffle Charts](https://github.com/mbuchthal/waffle-charts) (Visx-based)
+- **Charts**: [Waffle Charts](https://github.com/surprisewaffles-io/waffle-charts) (Visx-based)
 - **Grid**: `react-grid-layout`
 
 ## Installation (As a Library)
