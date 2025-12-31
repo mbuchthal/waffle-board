@@ -12,6 +12,7 @@ const Responsive = defaultExport.Responsive || (RGL as any).Responsive;
 import React, { useMemo, Suspense, useEffect } from 'react';
 import { Settings, GripVertical } from 'lucide-react';
 import { useObservedWidth } from './useObservedWidth.ts';
+import { LoadingSpinner } from '../components/LoadingSpinner';
 import { cn } from './utils';
 import { useWidgetData } from './useWidgetData';
 import type { BaseChartProps, DashboardConfig, Layout, WidgetDefinition, Fetcher } from './types';
@@ -67,8 +68,8 @@ const WidgetWrapper = ({
   // Initial loading state (no data yet)
   if (loading && !data && !widget.props.data) {
     return (
-      <div className="flex items-center justify-center h-full text-muted-foreground animate-pulse text-sm">
-        Loading...
+      <div className="flex items-center justify-center h-full">
+        <LoadingSpinner />
       </div>
     );
   }
