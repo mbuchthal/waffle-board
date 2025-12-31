@@ -31,9 +31,32 @@ export interface BaseChartProps {
   [key: string]: any;
 }
 
+export interface DataSource {
+  type: 'static' | 'api' | 'query';
+  data?: any; // For static type
+  // For API
+  endpoint?: string;
+  params?: Record<string, any>;
+  // For GraphQL
+  query?: string;
+  variables?: Record<string, any>;
+  // Common
+  interval?: number; // Polling interval in ms
+}
+
+export interface DataMap {
+  path?: string; // Dot notation path to array in response (e.g. "data.results")
+  // Generic mapping logic can go here (e.g. x: "date", y: "value")
+  // For now, we'll keep it simple
+}
+
 export interface WidgetDefinition {
   type: string; // e.g. "waffle-bar", "stat-card"
   title: string;
+  dataSource?: DataSource;
+  dataMap?: DataMap;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props: Record<string, any>;
 }
+
+export type Fetcher = (config: DataSource) => Promise<any>;

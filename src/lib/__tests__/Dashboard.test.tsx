@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { Dashboard } from './Dashboard';
-import { COMPONENT_REGISTRY } from './registry';
-import type { DashboardConfig } from './types';
+import { Dashboard } from '../Dashboard';
+import { COMPONENT_REGISTRY } from '../registry';
+import type { DashboardConfig } from '../types';
 
 // Mock Component for testing registry
 const MockWidget = () => <div data-testid="mock-widget">Widget Content</div>;

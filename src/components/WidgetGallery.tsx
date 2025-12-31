@@ -35,6 +35,7 @@ export function WidgetGallery({ isOpen, onClose, onAddWidget }: WidgetGalleryPro
         <button
           onClick={onClose}
           className="p-1 hover:bg-slate-800 rounded-md text-slate-400 hover:text-white transition-colors"
+          aria-label="Close Gallery"
         >
           <X size={20} />
         </button>

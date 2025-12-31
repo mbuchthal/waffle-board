@@ -9,45 +9,17 @@ const Responsive = defaultExport.Responsive || (RGL as any).Responsive;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
 
-import React, { useMemo, Suspense, useState, useRef, useEffect } from 'react';
+import React, { useMemo, Suspense, useEffect } from 'react';
 import { Settings, GripVertical } from 'lucide-react';
-
-// Robust hook to measure container width
-function useObservedWidth(defaultWidth = 1200) {
-  const [width, setWidth] = useState(defaultWidth);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const element = containerRef.current;
-    if (!element) return;
-
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.contentRect.width > 0) {
-          setWidth(Math.round(entry.contentRect.width));
-        }
-      }
-    });
-
-    observer.observe(element);
-
-    // Initial measure
-    if (element.offsetWidth > 0) {
-      setWidth(element.offsetWidth);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  return { width, containerRef, mounted };
-}
+import { useObservedWidth } from './useObservedWidth';
 import { cn } from './utils';
-import type { BaseChartProps, DashboardConfig, Layout, WidgetDefinition } from './types';
+import { useWidgetData } from './useWidgetData';
+import type { BaseChartProps, DashboardConfig, Layout, WidgetDefinition, Fetcher } from './types';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import '../index.css';
+// Imports are already at the top
+
 
 export interface DashboardProps {
   config: DashboardConfig;
@@ -56,7 +28,64 @@ export interface DashboardProps {
   onEditWidget?: (id: string, widget: WidgetDefinition) => void;
   registry: Record<string, React.ComponentType<BaseChartProps> | React.ComponentType<any>>;
   width?: number;
+  fetcher?: Fetcher;
 }
+
+// Internal wrapper to handle data fetching per widget
+const WidgetWrapper = ({
+  widget,
+  fetcher,
+  registry
+}: {
+  widget: WidgetDefinition;
+  fetcher?: Fetcher;
+  registry: DashboardProps['registry']
+}) => {
+  const { data, loading, error } = useWidgetData(widget.dataSource, fetcher);
+
+  const Component = registry[widget.type];
+
+  // Merge static props with fetched data
+  // Fetched data takes precedence (e.g. replacing 'data' array)
+  // If data is null/loading, we use static props
+  const finalProps = {
+    ...widget.props,
+    ...(data ? { data } : {}), // Simplified merging strategy: if data exists, assume it replaces 'data' prop
+    // We could make this smarter with 'dataMap' later
+    isLoading: loading,
+    error: error
+  };
+
+  if (!Component) {
+    return (
+      <div className="flex items-center justify-center h-full text-destructive text-sm bg-destructive/10 rounded">
+        Unknown component type: {widget.type}
+      </div>
+    );
+  }
+
+  // Initial loading state (no data yet)
+  if (loading && !data && !widget.props.data) {
+    return (
+      <div className="flex items-center justify-center h-full text-muted-foreground animate-pulse text-sm">
+        Loading...
+      </div>
+    );
+  }
+
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center h-full text-muted-foreground animate-pulse text-sm">Loading...</div>}>
+      {/* If we have an error, we could render an error state here, but for now passing it to component */}
+      {error ? (
+        <div className="flex items-center justify-center h-full text-destructive text-xs p-2 text-center">
+          Error: {error.message}
+        </div>
+      ) : (
+        React.createElement(Component, finalProps)
+      )}
+    </Suspense>
+  );
+};
 
 export function Dashboard({
   config,
@@ -64,7 +93,8 @@ export function Dashboard({
   isEditable = false,
   onEditWidget,
   registry,
-  width: overrideWidth
+  width: overrideWidth,
+  fetcher
 }: DashboardProps) {
 
   // Use our custom hook for robust measurement
@@ -160,15 +190,7 @@ export function Dashboard({
                     </div>
                   </div>
                   <div className="flex-1 p-4 min-h-0 overflow-hidden relative">
-                    {registry[widget.type] ? (
-                      <Suspense fallback={<div className="flex items-center justify-center h-full text-muted-foreground animate-pulse text-sm">Loading...</div>}>
-                        {React.createElement(registry[widget.type], widget.props)}
-                      </Suspense>
-                    ) : (
-                      <div className="flex items-center justify-center h-full text-destructive text-sm bg-destructive/10 rounded">
-                        Unknown component type: {widget.type}
-                      </div>
-                    )}
+                    <WidgetWrapper widget={widget} fetcher={fetcher} registry={registry} />
                   </div>
                 </div>
               );

@@ -236,9 +236,12 @@ const demoConfig: DashboardConfig = {
     },
     bar1: {
       type: 'waffle-bar',
-      title: 'Sales Overview',
+      title: 'Sales Overview (Live Data)',
+      dataSource: { type: 'api', endpoint: '/api/revenue', interval: 5000 },
       props: {
-        data: barData, xKey: 'month', yKey: 'sales',
+        data: [],
+        xKey: 'x',
+        yKey: 'y',
         barColor: 'fill-indigo-500',
         xAxisLabel: 'Month',
         yAxisLabel: 'Sales ($)',
@@ -632,6 +635,25 @@ export function DashboardPage() {
             className="max-w-[1400px] mx-auto"
             isEditable={isEditable}
             registry={{ ...COMPONENT_REGISTRY, ...customRegistry }}
+            fetcher={async (dataSource) => {
+              console.log("[Demo Fetcher] Request:", dataSource);
+              await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate latency
+
+              if (dataSource.type === 'static') return dataSource.data;
+
+              // Mock API for 'revenue-trend'
+              if (dataSource.type === 'api' && dataSource.endpoint === '/api/revenue') {
+                return [
+                  { x: 'Jan', y: 4500 },
+                  { x: 'Feb', y: 3200 },
+                  { x: 'Mar', y: 2100 },
+                  { x: 'Apr', y: 5000 }, // High spike to prove dynamic data
+                  { x: 'May', y: 1800 },
+                  { x: 'Jun', y: 2400 },
+                ];
+              }
+              return null;
+            }}
           />
         </div>
       </main>

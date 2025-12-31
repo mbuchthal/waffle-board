@@ -54,7 +54,24 @@ function MyDashboard() {
 }
 ```
 
-## Running the Project
+### Data Integration (Dynamic Loading)
+Widgets can fetch their own data by defining a `dataSource` in the JSON config. You provide the `fetcher` implementation.
+
+```tsx
+<Dashboard
+  // ...
+  fetcher={async (dataSource) => {
+    // Implement your data fetching logic here
+    if (dataSource.type === 'api') {
+      const response = await fetch(dataSource.endpoint);
+      return response.json();
+    }
+    return null;
+  }}
+/>
+```
+
+### Running the Project
 
 ### Demo App
 To run the included demo application:
