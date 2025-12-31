@@ -11,7 +11,7 @@ const Responsive = defaultExport.Responsive || (RGL as any).Responsive;
 
 import React, { useMemo, Suspense, useEffect } from 'react';
 import { Settings, GripVertical } from 'lucide-react';
-import { useObservedWidth } from './useObservedWidth';
+import { useObservedWidth } from './useObservedWidth.ts';
 import { cn } from './utils';
 import { useWidgetData } from './useWidgetData';
 import type { BaseChartProps, DashboardConfig, Layout, WidgetDefinition, Fetcher } from './types';
