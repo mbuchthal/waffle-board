@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import { Dashboard } from '../Dashboard';
-import type { DashboardConfig, WidgetDefinition, Fetcher } from '../types';
+import type { DashboardConfig, Fetcher } from '../types';
 
 // Mock ResizeObserver for Dashboard measurement
 vi.stubGlobal('ResizeObserver', class {
@@ -28,7 +28,7 @@ describe('Dashboard Data Architecture', () => {
     const staticData = [{ x: 1, y: 10 }];
     const config: DashboardConfig = {
       id: 'test',
-      layouts: { lg: [{ i: 'w1', x: 0, y: 0, w: 12, h: 4 }] },
+      layouts: { lg: [{ i: 'w1', x: 0, y: 0, w: 12, h: 4 }], md: [], sm: [] },
       widgets: {
         w1: {
           type: 'mock-widget',
@@ -50,7 +50,7 @@ describe('Dashboard Data Architecture', () => {
 
     const config: DashboardConfig = {
       id: 'test',
-      layouts: { lg: [{ i: 'w1', x: 0, y: 0, w: 12, h: 4 }] },
+      layouts: { lg: [{ i: 'w1', x: 0, y: 0, w: 12, h: 4 }], md: [], sm: [] },
       widgets: {
         w1: {
           type: 'mock-widget',
@@ -79,7 +79,7 @@ describe('Dashboard Data Architecture', () => {
 
     const config: DashboardConfig = {
       id: 'test',
-      layouts: { lg: [{ i: 'w1', x: 0, y: 0, w: 12, h: 4 }] },
+      layouts: { lg: [{ i: 'w1', x: 0, y: 0, w: 12, h: 4 }], md: [], sm: [] },
       widgets: {
         w1: {
           type: 'mock-widget',
