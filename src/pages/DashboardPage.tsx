@@ -1,5 +1,5 @@
 import { Dashboard as DashboardRenderer } from '../lib/Dashboard';
-import { COMPONENT_REGISTRY } from '../registry';
+import { COMPONENT_REGISTRY } from '../lib/registry';
 import type { DashboardConfig } from '../lib/types';
 import { useState, useRef } from 'react';
 import { WidgetGallery } from '../components/WidgetGallery';
@@ -99,22 +99,22 @@ const demoConfig: DashboardConfig = {
   id: "sales-overview",
   layouts: {
     lg: [
-      { i: 'stat1', x: 0, y: 0, w: 3, h: 2 },
-      { i: 'stat2', x: 3, y: 0, w: 3, h: 2 },
-      { i: 'stat3', x: 6, y: 0, w: 3, h: 2 },
-      { i: 'stat4', x: 9, y: 0, w: 3, h: 2 },
-      { i: 'bar1', x: 0, y: 2, w: 8, h: 4 },
-      { i: 'pie1', x: 8, y: 2, w: 4, h: 4 },
-      { i: 'line1', x: 0, y: 6, w: 6, h: 4 },
-      { i: 'area1', x: 6, y: 6, w: 6, h: 4 },
-      { i: 'radar1', x: 0, y: 10, w: 4, h: 4 },
-      { i: 'scatter1', x: 4, y: 10, w: 4, h: 4 },
-      { i: 'bubble1', x: 8, y: 10, w: 4, h: 4 },
-      { i: 'heatmap1', x: 0, y: 14, w: 6, h: 4 },
-      { i: 'treemap1', x: 6, y: 14, w: 6, h: 4 },
-      { i: 'sankey1', x: 0, y: 18, w: 8, h: 5 },
-      { i: 'chord1', x: 8, y: 18, w: 4, h: 5 },
-      { i: 'composite1', x: 0, y: 23, w: 12, h: 5 },
+      { i: 'stat1', x: 0, y: 0, w: 6, h: 2 },
+      { i: 'stat2', x: 6, y: 0, w: 6, h: 2 },
+      { i: 'stat3', x: 0, y: 2, w: 6, h: 2 },
+      { i: 'stat4', x: 6, y: 2, w: 6, h: 2 },
+      { i: 'bar1', x: 0, y: 4, w: 8, h: 4 },
+      { i: 'pie1', x: 8, y: 4, w: 4, h: 4 },
+      { i: 'line1', x: 0, y: 8, w: 6, h: 4 },
+      { i: 'area1', x: 6, y: 8, w: 6, h: 4 },
+      { i: 'radar1', x: 0, y: 12, w: 4, h: 4 },
+      { i: 'scatter1', x: 4, y: 12, w: 4, h: 4 },
+      { i: 'bubble1', x: 8, y: 12, w: 4, h: 4 },
+      { i: 'heatmap1', x: 0, y: 16, w: 6, h: 4 },
+      { i: 'treemap1', x: 6, y: 16, w: 6, h: 4 },
+      { i: 'sankey1', x: 0, y: 20, w: 8, h: 5 },
+      { i: 'chord1', x: 8, y: 20, w: 4, h: 5 },
+      { i: 'composite1', x: 0, y: 25, w: 12, h: 5 },
     ],
     md: [
       { i: 'stat1', x: 0, y: 0, w: 5, h: 2 },
@@ -151,6 +151,42 @@ const demoConfig: DashboardConfig = {
       { i: 'sankey1', x: 0, y: 44, w: 6, h: 5 },
       { i: 'chord1', x: 0, y: 49, w: 6, h: 5 },
       { i: 'composite1', x: 0, y: 54, w: 6, h: 5 },
+    ],
+    xs: [
+      { i: 'stat1', x: 0, y: 0, w: 4, h: 2 },
+      { i: 'stat2', x: 0, y: 2, w: 4, h: 2 },
+      { i: 'stat3', x: 0, y: 4, w: 4, h: 2 },
+      { i: 'stat4', x: 0, y: 6, w: 4, h: 2 },
+      { i: 'bar1', x: 0, y: 8, w: 4, h: 4 },
+      { i: 'pie1', x: 0, y: 12, w: 4, h: 4 },
+      { i: 'line1', x: 0, y: 16, w: 4, h: 4 },
+      { i: 'area1', x: 0, y: 20, w: 4, h: 4 },
+      { i: 'radar1', x: 0, y: 24, w: 4, h: 4 },
+      { i: 'scatter1', x: 0, y: 28, w: 4, h: 4 },
+      { i: 'bubble1', x: 0, y: 32, w: 4, h: 4 },
+      { i: 'heatmap1', x: 0, y: 36, w: 4, h: 4 },
+      { i: 'treemap1', x: 0, y: 40, w: 4, h: 4 },
+      { i: 'sankey1', x: 0, y: 44, w: 4, h: 5 },
+      { i: 'chord1', x: 0, y: 49, w: 4, h: 5 },
+      { i: 'composite1', x: 0, y: 54, w: 4, h: 5 },
+    ],
+    xxs: [
+      { i: 'stat1', x: 0, y: 0, w: 2, h: 2 },
+      { i: 'stat2', x: 0, y: 2, w: 2, h: 2 },
+      { i: 'stat3', x: 0, y: 4, w: 2, h: 2 },
+      { i: 'stat4', x: 0, y: 6, w: 2, h: 2 },
+      { i: 'bar1', x: 0, y: 8, w: 2, h: 4 },
+      { i: 'pie1', x: 0, y: 12, w: 2, h: 4 },
+      { i: 'line1', x: 0, y: 16, w: 2, h: 4 },
+      { i: 'area1', x: 0, y: 20, w: 2, h: 4 },
+      { i: 'radar1', x: 0, y: 24, w: 2, h: 4 },
+      { i: 'scatter1', x: 0, y: 28, w: 2, h: 4 },
+      { i: 'bubble1', x: 0, y: 32, w: 2, h: 4 },
+      { i: 'heatmap1', x: 0, y: 36, w: 2, h: 4 },
+      { i: 'treemap1', x: 0, y: 40, w: 2, h: 4 },
+      { i: 'sankey1', x: 0, y: 44, w: 2, h: 5 },
+      { i: 'chord1', x: 0, y: 49, w: 2, h: 5 },
+      { i: 'composite1', x: 0, y: 54, w: 2, h: 5 },
     ]
   },
   widgets: {
@@ -341,12 +377,12 @@ export function DashboardPage() {
       layouts: {
         ...effectiveConfig.layouts,
         lg: [
-          { i: 'welcome', x: 0, y: 0, w: 3, h: 4 }, // Custom widget
-          // Re-add all existing items from demoConfig, shifted to accommodate welcome widget
-          { i: 'stat1', x: 3, y: 0, w: 3, h: 2 },
-          { i: 'stat2', x: 6, y: 0, w: 3, h: 2 },
-          { i: 'stat3', x: 9, y: 0, w: 3, h: 2 },
-          { i: 'stat4', x: 3, y: 2, w: 3, h: 2 },
+          { i: 'welcome', x: 0, y: 0, w: 4, h: 4 }, // Custom widget (33%)
+          // Re-add existing items, shifted layout
+          { i: 'stat1', x: 4, y: 0, w: 4, h: 2 },
+          { i: 'stat2', x: 8, y: 0, w: 4, h: 2 },
+          { i: 'stat3', x: 4, y: 2, w: 4, h: 2 },
+          { i: 'stat4', x: 8, y: 2, w: 4, h: 2 },
           // Row 2
           { i: 'bar1', x: 6, y: 2, w: 6, h: 4 },
           { i: 'pie1', x: 0, y: 4, w: 4, h: 4 }, // Adjusted position
@@ -427,7 +463,9 @@ export function DashboardPage() {
         // Clone specific keys we modify, or all of them
         lg: [...config.layouts.lg],
         md: [...config.layouts.md],
-        sm: [...config.layouts.sm]
+        sm: [...config.layouts.sm],
+        xs: config.layouts.xs ? [...config.layouts.xs] : [],
+        xxs: config.layouts.xxs ? [...config.layouts.xxs] : [],
       }
     };
 
@@ -453,6 +491,8 @@ export function DashboardPage() {
     // Simple responsive logic: copy to other layouts for demo
     newConfig.layouts.md.push({ ...newItem, w: Math.min(newItem.w, 10) });
     newConfig.layouts.sm.push({ ...newItem, w: 6 });
+    if (newConfig.layouts.xs) newConfig.layouts.xs.push({ ...newItem, w: 4 });
+    if (newConfig.layouts.xxs) newConfig.layouts.xxs.push({ ...newItem, w: 2 });
 
     // 3. Update State
     setConfig(newConfig);
@@ -508,22 +548,23 @@ export function DashboardPage() {
       <header className="bg-white border-b hover:bg-white/90 z-20 shrink-0">
         <div className="max-w-[1920px] mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold">
+            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shrink-0">
               W
             </div>
-            <h1 className="text-xl font-bold tracking-tight">Waffle Board</h1>
+            <h1 className="text-xl font-bold tracking-tight hidden sm:block">Waffle Board</h1>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
 
             <button
               onClick={() => setShowGallery(true)}
-              className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-sm"
+              className="flex items-center gap-2 px-2 sm:px-3 py-1.5 text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-sm"
+              title="Add Widget"
             >
               <Plus size={16} />
-              Add Widget
+              <span className="hidden sm:inline">Add Widget</span>
             </button>
 
-            <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/20 px-3 py-1 rounded-full border hidden sm:flex">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/20 px-3 py-1 rounded-full border hidden md:flex">
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
               config-driven-demo
             </div>
@@ -532,7 +573,7 @@ export function DashboardPage() {
             <select
               value={theme}
               onChange={(e) => setTheme(e.target.value as typeof theme)}
-              className="px-3 py-1.5 text-sm rounded-lg border bg-white text-foreground cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50"
+              className="px-2 sm:px-3 py-1.5 text-sm rounded-lg border bg-white text-foreground cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50"
             >
               <option value="default">Default</option>
               <option value="ocean">Ocean</option>

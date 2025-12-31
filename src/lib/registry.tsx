@@ -32,5 +32,7 @@ export const COMPONENT_REGISTRY: Record<string, React.ComponentType<any>> = {
   'waffle-sankey': SankeyChart,
   'waffle-chord': ChordChart,
   'waffle-composite': CompositeChart,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  'waffle-batch': lazy(() => import('waffle-batch').then((module: any) => ({ default: module.Trellis || module.default?.Trellis || module.default }))),
   'stat-card': StatCard,
 };

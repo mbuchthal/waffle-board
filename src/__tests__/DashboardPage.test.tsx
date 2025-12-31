@@ -23,6 +23,16 @@ vi.mock('../config/templates', () => {
   };
 });
 
+// Mock the component registry to avoid rendering complex charts (and React conflicts)
+vi.mock('../lib/registry', () => {
+  return {
+    COMPONENT_REGISTRY: {
+      'waffle-bar': () => <div data-widget-id="mock-bar">Bar Chart</div>,
+      'stat-card': () => <div>Stat</div>
+    }
+  };
+});
+
 // Mock ResizeObserver
 window.ResizeObserver = class ResizeObserver {
   observe() { }
@@ -33,9 +43,15 @@ window.ResizeObserver = class ResizeObserver {
 // Mock scrollIntoView
 window.HTMLElement.prototype.scrollIntoView = vi.fn();
 
+import { MemoryRouter } from 'react-router-dom';
+
 describe('DashboardPage – widget addition', () => {
   test('adds a widget and scrolls it into view', async () => {
-    const { getByRole, container } = render(<DashboardPage />);
+    const { getByRole, container } = render(
+      <MemoryRouter>
+        <DashboardPage />
+      </MemoryRouter>
+    );
 
     // Open the gallery
     fireEvent.click(getByRole('button', { name: /Add Widget/i }));

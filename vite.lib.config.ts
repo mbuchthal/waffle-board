@@ -31,7 +31,8 @@ export default defineConfig({
         'react',
         'react-dom',
         'react-grid-layout',
-        '@waffle-charts/types' // If this becomes a package
+        '@waffle-charts/types',
+        'waffle-batch' // Externalize to avoid bundling issues
       ],
       output: {
         globals: {

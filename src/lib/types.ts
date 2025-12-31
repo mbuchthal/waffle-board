@@ -18,6 +18,8 @@ export interface DashboardConfig {
     lg: Layout[];
     md: Layout[];
     sm: Layout[];
+    xs?: Layout[];
+    xxs?: Layout[];
   };
   widgets: Record<string, WidgetDefinition>;
 }
