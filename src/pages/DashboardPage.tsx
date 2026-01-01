@@ -25,12 +25,16 @@ const pieData = [
 ];
 
 const dateData = [
-  { date: new Date(2023, 0, 1), value: 30 },
-  { date: new Date(2023, 1, 1), value: 45 },
-  { date: new Date(2023, 2, 1), value: 35 },
-  { date: new Date(2023, 3, 1), value: 80 },
-  { date: new Date(2023, 4, 1), value: 50 },
+  { date: new Date(2023, 0, 1), revenue: 30, profit: 10 },
+  { date: new Date(2023, 1, 1), revenue: 45, profit: 25 },
+  { date: new Date(2023, 2, 1), revenue: 35, profit: 15 },
+  { date: new Date(2023, 3, 1), revenue: 80, profit: 50 },
+  { date: new Date(2023, 4, 1), revenue: 50, profit: 30 },
 ];
+
+// ...
+
+
 
 const radarData = [
   { angle: 'Math', r: 120 },
@@ -94,6 +98,19 @@ const compositeData = [
   { m: 'E', v: 450, l: 40 }
 ];
 
+const groupedBarData = [
+  { category: 'Q1', productA: 4000, productB: 2400, productC: 2400 },
+  { category: 'Q2', productA: 3000, productB: 1398, productC: 2210 },
+  { category: 'Q3', productA: 2000, productB: 9800, productC: 2290 },
+  { category: 'Q4', productA: 2780, productB: 3908, productC: 2000 },
+];
+
+const stackedBarData = [
+  { month: 'Jan', organic: 1200, paid: 800, referral: 400 },
+  { month: 'Feb', organic: 900, paid: 900, referral: 500 },
+  { month: 'Mar', organic: 1600, paid: 1200, referral: 700 },
+];
+
 // The Configuration JSON (This would come from an API/Database)
 const demoConfig: DashboardConfig = {
   id: "sales-overview",
@@ -115,6 +132,8 @@ const demoConfig: DashboardConfig = {
       { i: 'sankey1', x: 0, y: 20, w: 8, h: 5 },
       { i: 'chord1', x: 8, y: 20, w: 4, h: 5 },
       { i: 'composite1', x: 0, y: 25, w: 12, h: 5 },
+      { i: 'bar_grouped', x: 0, y: 30, w: 6, h: 4 },
+      { i: 'bar_stacked', x: 6, y: 30, w: 6, h: 4 },
     ],
     md: [
       { i: 'stat1', x: 0, y: 0, w: 5, h: 2 },
@@ -133,6 +152,8 @@ const demoConfig: DashboardConfig = {
       { i: 'sankey1', x: 0, y: 28, w: 10, h: 5 },
       { i: 'chord1', x: 0, y: 33, w: 5, h: 5 },
       { i: 'composite1', x: 5, y: 33, w: 5, h: 5 },
+      { i: 'bar_grouped', x: 0, y: 38, w: 10, h: 4 },
+      { i: 'bar_stacked', x: 0, y: 42, w: 10, h: 4 },
     ],
     sm: [
       { i: 'stat1', x: 0, y: 0, w: 6, h: 2 },
@@ -151,6 +172,8 @@ const demoConfig: DashboardConfig = {
       { i: 'sankey1', x: 0, y: 44, w: 6, h: 5 },
       { i: 'chord1', x: 0, y: 49, w: 6, h: 5 },
       { i: 'composite1', x: 0, y: 54, w: 6, h: 5 },
+      { i: 'bar_grouped', x: 0, y: 59, w: 6, h: 4 },
+      { i: 'bar_stacked', x: 0, y: 63, w: 6, h: 4 },
     ],
     xs: [
       { i: 'stat1', x: 0, y: 0, w: 4, h: 2 },
@@ -169,6 +192,8 @@ const demoConfig: DashboardConfig = {
       { i: 'sankey1', x: 0, y: 44, w: 4, h: 5 },
       { i: 'chord1', x: 0, y: 49, w: 4, h: 5 },
       { i: 'composite1', x: 0, y: 54, w: 4, h: 5 },
+      { i: 'bar_grouped', x: 0, y: 59, w: 4, h: 4 },
+      { i: 'bar_stacked', x: 0, y: 63, w: 4, h: 4 },
     ],
     xxs: [
       { i: 'stat1', x: 0, y: 0, w: 2, h: 2 },
@@ -187,6 +212,8 @@ const demoConfig: DashboardConfig = {
       { i: 'sankey1', x: 0, y: 44, w: 2, h: 5 },
       { i: 'chord1', x: 0, y: 49, w: 2, h: 5 },
       { i: 'composite1', x: 0, y: 54, w: 2, h: 5 },
+      { i: 'bar_grouped', x: 0, y: 59, w: 2, h: 4 },
+      { i: 'bar_stacked', x: 0, y: 63, w: 2, h: 4 },
     ]
   },
   widgets: {
@@ -246,6 +273,11 @@ const demoConfig: DashboardConfig = {
         xAxisLabel: 'Month',
         yAxisLabel: 'Sales ($)',
         showGridRows: true
+      },
+      drillDown: {
+        type: 'action',
+        actionType: 'FILTER_BY_MONTH',
+        payload: { source: 'dashboard_click' }
       }
     },
     pie1: {
@@ -259,8 +291,17 @@ const demoConfig: DashboardConfig = {
     },
     line1: {
       type: 'waffle-line',
-      title: 'Growth Trend (Line)',
-      props: { data: dateData, xKey: 'date', yKey: 'value', lineColor: '#10b981', showGridColumns: true }
+      title: 'Growth Trend (Revenue vs Profit)',
+      props: {
+        data: dateData,
+        xKey: 'date',
+        // New Multi-Series Config
+        series: [
+          { key: 'revenue', color: '#10b981', label: 'Revenue' },
+          { key: 'profit', color: '#6366f1', label: 'Profit' }
+        ],
+        showGridColumns: true
+      }
     },
     area1: {
       type: 'waffle-area',
@@ -312,6 +353,32 @@ const demoConfig: DashboardConfig = {
         lineKey: "l",
         yAxisLabel: "Sales",
         rightYAxisLabel: "Leads"
+      }
+    },
+    bar_grouped: {
+      type: 'waffle-bar',
+      title: 'Product Performance (Grouped)',
+      props: {
+        data: groupedBarData,
+        xKey: 'category',
+        variant: 'grouped',
+        keys: ['productA', 'productB', 'productC'],
+        colors: ['#0ea5e9', '#22c55e', '#eab308'],
+        yAxisLabel: 'Sales ($)',
+        showGridRows: true
+      }
+    },
+    bar_stacked: {
+      type: 'waffle-bar',
+      title: 'Traffic Composition (Stacked)',
+      props: {
+        data: stackedBarData,
+        xKey: 'month',
+        variant: 'stacked',
+        keys: ['organic', 'paid', 'referral'],
+        colors: ['#8b5cf6', '#ec4899', '#f43f5e'],
+        yAxisLabel: 'Users',
+        showGridRows: true
       }
     }
   }
@@ -401,8 +468,22 @@ export function DashboardPage() {
           { i: 'chord1', x: 8, y: 20, w: 4, h: 5 },
           { i: 'composite1', x: 0, y: 25, w: 12, h: 5 },
         ],
-        md: demoConfig.layouts.md,
-        sm: demoConfig.layouts.sm
+        md: [
+          { i: 'welcome', x: 0, y: 0, w: 5, h: 4 },
+          ...demoConfig.layouts.md.map(item => ({ ...item, y: item.y + 4 }))
+        ],
+        sm: [
+          { i: 'welcome', x: 0, y: 0, w: 6, h: 4 },
+          ...demoConfig.layouts.sm.map(item => ({ ...item, y: item.y + 4 }))
+        ],
+        xs: [
+          { i: 'welcome', x: 0, y: 0, w: 4, h: 4 },
+          ...(demoConfig.layouts.xs || []).map(item => ({ ...item, y: item.y + 4 }))
+        ],
+        xxs: [
+          { i: 'welcome', x: 0, y: 0, w: 2, h: 4 },
+          ...(demoConfig.layouts.xxs || []).map(item => ({ ...item, y: item.y + 4 }))
+        ]
       },
       widgets: {
         ...effectiveConfig.widgets,

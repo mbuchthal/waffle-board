@@ -50,11 +50,22 @@ export interface DataMap {
   // For now, we'll keep it simple
 }
 
+export interface DrillDownConfig {
+  type: 'url' | 'action';
+  // URL Mode
+  url?: string; // e.g. "https://example.com/details/{id}"
+  openInNewTab?: boolean;
+  // Action Mode
+  actionType?: string; // e.g. "SET_FILTER"
+  payload?: Record<string, any>;
+}
+
 export interface WidgetDefinition {
   type: string; // e.g. "waffle-bar", "stat-card"
   title: string;
   dataSource?: DataSource;
   dataMap?: DataMap;
+  drillDown?: DrillDownConfig;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props: Record<string, any>;
 }

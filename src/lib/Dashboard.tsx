@@ -46,13 +46,42 @@ const WidgetWrapper = ({
 
   const Component = registry[widget.type];
 
-  // Merge static props with fetched data
-  // Fetched data takes precedence (e.g. replacing 'data' array)
-  // If data is null/loading, we use static props
+  // Drill-down Handler
+  const handleWidgetClick = (interactionData: any) => {
+    if (!widget.drillDown) return;
+
+    if (widget.drillDown.type === 'url' && widget.drillDown.url) {
+      // Very simple string interpolation: {id} -> interactionData.id or interactionData (if string/number)
+      // This is a naive implementation for proof-of-concept
+      let url = widget.drillDown.url;
+
+      // If interactionData is an object, replace keys
+      if (typeof interactionData === 'object' && interactionData !== null) {
+        Object.keys(interactionData).forEach(key => {
+          url = url.replace(`{${key}}`, String(interactionData[key]));
+        });
+      } else {
+        // If primitive, assuming {value} or {id} might match
+        url = url.replace('{value}', String(interactionData));
+      }
+
+      if (widget.drillDown.openInNewTab) {
+        window.open(url, '_blank');
+      } else {
+        window.location.href = url;
+      }
+    } else if (widget.drillDown.type === 'action') {
+      console.log("Drill-down Action:", widget.drillDown.actionType, widget.drillDown.payload, interactionData);
+      // Future: Call onInteraction(widget.drillDown.actionType, { ...payload, ...interactionData })
+    }
+  };
+
+  // Merge static props with fetched data and handler
   const finalProps = {
     ...widget.props,
-    ...(data ? { data } : {}), // Simplified merging strategy: if data exists, assume it replaces 'data' prop
-    // We could make this smarter with 'dataMap' later
+    ...(data ? { data } : {}),
+    // Map generic 'onClick' to our handler
+    onClick: handleWidgetClick,
     isLoading: loading,
     error: error
   };
