@@ -35,7 +35,8 @@ npm install waffle-board
 
 ```tsx
 import { Dashboard } from 'waffle-board';
-import { BarChart, LineChart } from 'waffle-charts'; // Your chart components
+import { BarChart } from '@waffle-charts/components/waffle/BarChart';
+import { LineChart } from '@waffle-charts/components/waffle/LineChart'; // Your chart components
 import 'waffle-board/dist-lib/style.css'; // Import styles
 
 const registry = {
@@ -53,6 +54,26 @@ function MyDashboard() {
   );
 }
 ```
+
+> **Note**: The Vite config in this repo defines an alias `@waffle-charts` that points to the local source of the `waffle-charts` library. This lets you import chart components directly from their file paths.
+
+### Supported Charts
+Directly import these components from `@waffle-charts/components/waffle/`:
+
+- `BarChart` - Supports stacked and grouped variants
+- `LineChart` - Supports multi-series and legends
+- `AreaChart`
+- `PieChart`
+- `CandlestickChart` - Financial OHLC data
+- `ScatterChart`
+- `RadarChart`
+- `HeatmapChart`
+- `TreemapChart`
+- `SankeyChart`
+- `ChordChart`
+
+### Registry Explanation
+The `registry` object maps the string `type` found in your JSON configuration (e.g., `"type": "my-bar-chart"`) to the actual React component. This allows the JSON schema to remain serializable and agnostic of implementation details.
 
 ### Data Integration (Dynamic Loading)
 Widgets can fetch their own data by defining a `dataSource` in the JSON config. You provide the `fetcher` implementation.
@@ -94,6 +115,15 @@ Themes are defined in `src/index.css` using CSS variables. To add a new theme:
 1. Add a new `.theme-name` class in `index.css`.
 2. Define the color palette (background, foreground, primary, etc.).
 3. Add the theme to the `themes` array in `src/App.tsx`.
+
+## Troubleshooting
+
+- **Module not found**: Verify the `@waffle-charts` alias exists in `vite.config.ts`.
+- **TypeScript errors**: Run `npm run build:lib` to generate the compiled type definitions.
+
+## Contributing
+
+See [CONTRIBUTING.md](https://github.com/surprisewaffles-io/waffle-board/blob/main/CONTRIBUTING.md) for guidelines.
 
 ## License
 

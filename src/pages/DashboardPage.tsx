@@ -467,6 +467,8 @@ export function DashboardPage() {
           { i: 'sankey1', x: 0, y: 20, w: 8, h: 5 },
           { i: 'chord1', x: 8, y: 20, w: 4, h: 5 },
           { i: 'composite1', x: 0, y: 25, w: 12, h: 5 },
+          { i: 'bar_grouped', x: 0, y: 30, w: 6, h: 4 },
+          { i: 'bar_stacked', x: 6, y: 30, w: 6, h: 4 },
         ],
         md: [
           { i: 'welcome', x: 0, y: 0, w: 5, h: 4 },

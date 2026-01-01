@@ -15,6 +15,7 @@ const TreemapChart = lazy(() => import('@waffle-charts/components/waffle/Treemap
 const SankeyChart = lazy(() => import('@waffle-charts/components/waffle/SankeyChart.tsx').then(module => ({ default: module.SankeyChart })));
 const ChordChart = lazy(() => import('@waffle-charts/components/waffle/ChordChart.tsx').then(module => ({ default: module.ChordChart })));
 const CompositeChart = lazy(() => import('@waffle-charts/components/waffle/CompositeChart.tsx').then(module => ({ default: module.CompositeChart })));
+const CandlestickChart = lazy(() => import('@waffle-charts/components/waffle/CandlestickChart.tsx').then(module => ({ default: module.CandlestickChart })));
 
 // The Registry Map
 // Keys match the "type" field in the JSON schema
@@ -32,6 +33,7 @@ export const COMPONENT_REGISTRY: Record<string, React.ComponentType<any>> = {
   'waffle-sankey': SankeyChart,
   'waffle-chord': ChordChart,
   'waffle-composite': CompositeChart,
+  'waffle-candlestick': CandlestickChart,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   'waffle-batch': lazy(() => import('waffle-batch').then((module: any) => ({ default: module.Trellis || module.default?.Trellis || module.default }))),
   'stat-card': StatCard,
